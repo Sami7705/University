@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataModel\UniversityModel.csproj" />
     <ProjectReference Include="..\UniversityServices\UniversityDataAccess.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />

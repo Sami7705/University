@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UniversityDataAccess;
 using UniversityDataAccess.Interface;
 using UniversityModel.Models;
 
 namespace University.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
        private readonly IRepository<Student> _studentRepository;
@@ -12,6 +14,7 @@ namespace University.Controllers
         {
             _studentRepository = studentRepository;
         }
+       
         public IActionResult Index()
         {
             return View(_studentRepository.GetAll());

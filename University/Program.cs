@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using UniversityDataAccess;
@@ -13,6 +14,9 @@ builder.Services.AddControllersWithViews();
 // Register the DbContext before building the app
 builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(
 builder.Configuration.GetConnectionString("ConnectionDB")));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>();
 //builder.Services.AddScoped<typeof(IRepository<>), StudentRepository>();
 //builder.Services.AddTransient(typeof(IRepository<>),StudentRepository<>);
 //builder.Services.AddTransient(typeof(IRepository<>), typeof(StudentRepository));
@@ -38,14 +42,14 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
+    //DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
