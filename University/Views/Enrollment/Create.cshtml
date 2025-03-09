@@ -1,0 +1,47 @@
+﻿@model UniversityModel.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Create Enrollment";
+}
+
+<h1 class="text-center mt-4 text-primary">@ViewData["Title"]</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">Enrollment Details</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="StudentID" class="form-label fw-bold text-secondary"></label>
+                        <select asp-for="StudentID" class="form-select border-primary" asp-items="ViewBag.Student"></select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="CourseID" class="form-label fw-bold text-secondary"></label>
+                        <select asp-for="CourseID" class="form-select border-primary" asp-items="ViewBag.Course"></select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label asp-for="Grade" class="form-label fw-bold text-secondary"></label>
+                        <input asp-for="Grade" class="form-control border-primary" />
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="bi bi-check-circle"></i> Create
+                        </button>
+                        <a asp-action="Index" class="btn btn-danger px-4">
+                            <i class="bi bi-arrow-left-circle"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

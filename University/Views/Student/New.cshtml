@@ -1,0 +1,40 @@
+﻿@model UniversityModel.Models.Student
+
+@{
+    ViewData["Title"] = "New";
+}
+
+<h1>New</h1>
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Add New Student</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+
+        </div>
+        <div class="mb-3">
+            <label asp-for="EnrollmentDate"></label>
+            <input asp-for="EnrollmentDate" class="form-control" />
+            <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
+
+        </div>
+        <div class="col-6">
+
+            <button type="submit" class="btn btn-success">save</button>
+            <a asp-controller="Student" asp-action="Index" class="btn btn-secondary">Back To Books</a>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+

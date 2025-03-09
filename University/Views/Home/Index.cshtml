@@ -1,0 +1,174 @@
+﻿@{
+    Layout = "_LayoutHome";
+    ViewData["Title"] = "جامعة الدبعي للعلوم والتكنولوجيا";
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جامعة الدبعي للعلوم والتكنولوجيا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to right, #a8e6cf, #dcedc1); /* تدرج لوني هادئ */
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+     
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .section:hover {
+                transform: translateY(-10px);
+                box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .section img {
+                width: 100%;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                transition: transform 0.3s ease;
+            }
+
+                .section img:hover {
+                    transform: scale(1.02);
+                }
+
+        h1 {
+            font-size: 40px;
+            color: #2c3e50; /* لون أزرق غامق */
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #34495e; /* لون أزرق غامق */
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            ul li {
+                background: rgba(44, 62, 80, 0.1); /* لون أزرق فاتح */
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 16px;
+                color: #333;
+                transition: background 0.3s ease;
+            }
+
+                ul li:hover {
+                    background: rgba(44, 62, 80, 0.2); /* لون أزرق فاتح */
+                }
+
+        button {
+            background: #34495e; /* لون أزرق غامق */
+            border: none;
+            padding: 12px 24px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+            button:hover {
+                background: #2c3e50; /* لون أزرق غامق */
+                transform: scale(1.05);
+            }
+
+        color: #2c3e50; /* لون أزرق غامق */
+                }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="fade-in">جامعة الدبعي للعلوم والتكنولوجيا</header>
+    <div class="container">
+        <h1 class="fade-in">مرحبًا بكم في جامعة الدبعي</h1>
+        <p class="fade-in">جامعة الدبعي للعلوم والتكنولوجيا هي صرح أكاديمي رائد يهدف إلى تقديم تعليم عالي الجودة في مجالات العلوم والتكنولوجيا والهندسة. نحن نؤمن بأن الابتكار والبحث العلمي هما الركيزتان الأساسيتان لبناء مستقبل أفضل.</p>
+
+        <div class="section fade-in">
+            <h2>تخصصات الجامعة الجديدة</h2>
+            <img src="~/Images/T.jpg" alt="University Image">
+            <p>جامعة الدبعي تقدم مجموعة واسعة من التخصصات الحديثة التي تلبي احتياجات سوق العمل المتطور. تشمل هذه التخصصات:</p>
+            <ul>
+                <li>الذكاء الاصطناعي وتعلم الآلة</li>
+                <li>الأمن السيبراني وحماية البيانات</li>
+                <li>تكنولوجيا المعلومات والبرمجة المتقدمة</li>
+                <li>تحليل البيانات والبيانات الضخمة</li>
+                <li>الهندسة الروبوتية والأتمتة</li>
+                <li>علوم الفضاء والطيران</li>
+                <li>التكنولوجيا الحيوية والهندسة الوراثية</li>
+            </ul>
+        </div>
+
+        <div class="section fade-in">
+            <h2>خدمات الجامعة</h2>
+            <img src="~/Images/k.jpg" alt="Technology and Students">
+            <p>توفر جامعة الدبعي بيئة تعليمية متكاملة تدعم الطلاب في تحقيق أهدافهم الأكاديمية والمهنية. تشمل خدماتنا:</p>
+            <ul>
+                <li>مكتبة رقمية ضخمة تحتوي على آلاف الكتب والمراجع العلمية</li>
+                <li>معامل حديثة مجهزة بأحدث الأجهزة والتقنيات</li>
+                <li>برامج تبادل طلابي مع الجامعات العالمية المرموقة</li>
+                <li>ورش عمل ودورات تدريبية متقدمة في التكنولوجيا</li>
+                <li>حاضنات أعمال لدعم الابتكار والمشاريع الناشئة</li>
+                <li>مركز دعم الطلاب لتقديم الاستشارات الأكاديمية والمهنية</li>
+            </ul>
+        </div>
+
+        <div class="section fade-in">
+            <h2>الذكاء الاصطناعي في جامعتنا</h2>
+            <img src="~/Images/Ai.jpg" alt="AI Image">
+            <p>جامعة الدبعي هي رائدة في مجال الذكاء الاصطناعي وتطبيقاته. نقدم برامج تعليمية وبحثية متقدمة تشمل:</p>
+            <ul>
+                <li>تعلم الآلة وتطبيقاته في مختلف المجالات</li>
+                <li>تحليل البيانات باستخدام الذكاء الاصطناعي</li>
+                <li>تصميم وتطوير الشبكات العصبية العميقة</li>
+                <li>أبحاث متقدمة في الذكاء الاصطناعي التوليدي</li>
+                <li>مشاريع عملية بالتعاون مع الشركات التقنية الرائدة</li>
+                <li>مسابقات وهاكاثونات في الذكاء الاصطناعي</li>
+            </ul>
+            <button onclick="showMessage()">اكتشف المزيد</button>
+        </div>
+    </div>
+
+    <script>
+        function showMessage() {
+            alert("استكشف برامج الذكاء الاصطناعي لدينا الآن! قم بزيارة موقعنا لمعرفة التفاصيل.");
+        }
+    </script>
+</body>
+</html>

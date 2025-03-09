@@ -1,0 +1,55 @@
+﻿@model IEnumerable<UniversityModel.Models.Enrollment>
+
+@{
+    ViewData["Title"] = "Enrollment List";
+}
+
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
+
+<div class="mb-3">
+    <a class="btn btn-primary" asp-action="Create">Create New Enrollment</a>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Grade)</th>
+            <th>@Html.DisplayNameFor(model => model.Course)</th>
+            <th>@Html.DisplayNameFor(model => model.Student)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Grade)</td>
+                <td>
+                    @if (item.Course != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Course.Title)
+                    }
+                    else
+                    {
+                        <span class="text-muted">No Course</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Student != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Student.Name)
+                    }
+                    else
+                    {
+                        <span class="text-muted">No Student</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-sm btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

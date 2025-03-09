@@ -1,0 +1,23 @@
+﻿@model UniversityModel.Models.CourseAssignment
+
+@{
+    ViewData["Title"] = "Course Assignment Details";
+}
+
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Course Assignment Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">Course</dt>
+            <dd class="col-sm-10">@Model.Course.Title</dd>
+
+            <dt class="col-sm-2">Instructor</dt>
+            <dd class="col-sm-10">@Model.Instructor.Name</dd>
+        </dl>
+        <a asp-action="Edit" asp-route-id="@Model.CourseID" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
