@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniversityModel.Data;
 
@@ -11,9 +12,11 @@ using UniversityModel.Data;
 namespace UniversityModel.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311143630_deleteReqiredfromtubles_and_I")]
+    partial class deleteReqiredfromtubles_and_I
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -431,9 +434,6 @@ namespace UniversityModel.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("dbImage")
-                        .HasColumnType("varbinary(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Instructor", (string)null);
@@ -516,9 +516,6 @@ namespace UniversityModel.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("dbImage")
-                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 

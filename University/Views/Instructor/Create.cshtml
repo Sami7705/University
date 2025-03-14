@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Instructor Details</h4>
                         <hr />
- <form asp-action= "Create" method= "post" >
+ <form asp-action= "Create" method= "post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label asp-for="Name" class="control-label"></label>
                                 <input asp-for="Name" class="form-control" />
@@ -36,6 +36,10 @@
                                 </select>
                                 <span asp-validation-for="OfficeAssignment.Location" class="text-danger"></span>
                             </div>
+                    <div class="mb-3">
+                        <input type="file" asp-for="clientFile" onchange="loadFile(event)" />
+                        <img id="myImg" height="200"
+                    </div>
                             <div class="form-group text-center">
                                 <input type = "submit" value="Create" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
@@ -51,4 +55,15 @@
             @{
                 await Html.RenderPartialAsync("_ValidationScriptsPartial");
             }
+    <script>
+        var loadFile =function(event){
+        var reader = new FileReader ();
+        reader.onload=function(){
+            var myImg = document.getElementById('myImg');
+            myImg.src = reader.result;
+          }
+          reader.readAsDataURL(event.target.file[0]);
+
+        }
+    </script>
    }}

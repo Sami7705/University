@@ -6,7 +6,7 @@
 
 <h1>New</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">Add New Student</h2>
@@ -25,6 +25,10 @@
             <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
 
         </div>
+        <div class="mb-3">
+            <input type="file"  asp-for="clientFile" onchange="loadFile(event)"/>
+            <img id="myImg" height="200"
+        </div>
         <div class="col-6">
 
             <button type="submit" class="btn btn-success">save</button>
@@ -34,6 +38,17 @@
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        var loadFile =function(event){
+        var reader = new FileReader ();
+        reader.onload=function(){
+            var myImg = document.getElementById('myImg');
+            myImg.src = reader.result;
+          }
+          reader.readAsDataURL(event.target.file[0]);
+
+        }
+    </script>
 }
 
 

@@ -1,0 +1,46 @@
+﻿
+    @model University.ViewModels.DashboardModel
+
+    @{
+        if (ViewData != null)
+        {
+            ViewData["Title"] = "admin";
+        }
+  
+    }
+<div class="container mt-5">
+    <h1 class="mb-4">لوحة تحكم مدير النظام</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">عدد الطلاب</h5>
+                    <p class="card-text display-4">@Model.TotalStudents</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">عدد الأساتذة</h5>
+                    <p class="card-text display-4">@Model.TotalProfessors</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">المقررات الدراسية</h5>
+                    <p class="card-text display-4">@Model.TotalCourses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/Settings" class="btn btn-primary">إعدادات النظام</a>
+    </div>
+</div>

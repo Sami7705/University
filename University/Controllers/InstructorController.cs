@@ -45,6 +45,12 @@ namespace University.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (instructor.clientFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    instructor.clientFile.CopyTo(stream);
+                    instructor.dbImage = stream.ToArray();
+                }
                 _instructorRepository.Add(instructor);
                 return RedirectToAction(nameof(Index));
             }

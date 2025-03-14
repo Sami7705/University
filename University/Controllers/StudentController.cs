@@ -17,6 +17,7 @@ namespace University.Controllers
        
         public IActionResult Index()
         {
+          string n=   User.Identity.Name;
             return View(_studentRepository.GetAll());
         }
         public IActionResult New()
@@ -31,8 +32,13 @@ namespace University.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(student.clientFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    student.clientFile.CopyTo(stream);
+                    student.dbImage = stream.ToArray();
+                }
                 _studentRepository.Add(student);
-
                 TempData["successData"] = "Stuedent has been added successfully";
                 return RedirectToAction("Index");
             }
@@ -62,6 +68,12 @@ namespace University.Controllers
 
             if (ModelState.IsValid)
             {
+                if (student.clientFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    student.clientFile.CopyTo(stream);
+                    student.dbImage = stream.ToArray();
+                }
                 _studentRepository.Update(student);
                 return RedirectToAction("Index");
             }
