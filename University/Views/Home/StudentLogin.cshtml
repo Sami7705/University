@@ -1,37 +1,32 @@
-﻿@model University.ViewModels.LoginViewModel
+﻿@model University.ViewModels.StudentLogin
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Student Login";
 }
 
-<h1 class="text-center">Login</h1>
+<h1 class="text-center">Student Login</h1>
 <hr />
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
             <div class="card-body">
-                <form asp-action="Login" method="post">
+                <form asp-action="StudentLogin" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="UserName" class="font-weight-bold"></label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <label asp-for="Email" class="font-weight-bold"></label>
+                        <input asp-for="Email" class="form-control" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Password" class="font-weight-bold"></label>
                         <input asp-for="Password" class="form-control" type="password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    <div class="form-group form-check">
-                        <input asp-for="RememberMe" class="form-check-input" />
-                        <label asp-for="RememberMe" class="form-check-label"></label>
-                        <span asp-validation-for="RememberMe" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <input type="submit" value="Login" class="btn btn-primary btn-block" />
                     </div>
                     <div class="form-group text-center">
-                        <a asp-action="Register" class="btn btn-secondary">Register</a>
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to Home</a>
                     </div>
                 </form>
             </div>
@@ -47,7 +42,7 @@
 
 <style>
     body {
-        background: linear-gradient(to right, #6a11cb, #2575fc);
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
         color: #fff;
     }
 
@@ -56,24 +51,32 @@
     }
 
     .btn-primary {
-        background-color: #6a11cb;
-        border-color: #6a11cb;
+        background-color: #ff7e5f;
+        border-color: #ff7e5f;
     }
 
     .btn-primary:hover {
-        background-color: #2575fc;
-        border-color: #2575fc;
+        background-color: #feb47b;
+        border-color: #feb47b;
     }
 
     .btn-secondary {
         background-color: #fff;
-        color: #6a11cb;
-        border-color: #6a11cb;
+        color: #ff7e5f;
+        border-color: #ff7e5f;
     }
 
     .btn-secondary:hover {
-        background-color: #2575fc;
+        background-color: #feb47b;
         color: #fff;
-        border-color: #2575fc;
+        border-color: #feb47b;
+    }
+
+    .form-control {
+        border-radius: 0.25rem;
+    }
+
+    .form-group label {
+        color: #333;
     }
 </style>

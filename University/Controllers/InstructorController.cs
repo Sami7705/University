@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UniversityDataAccess.Interface;
 using UniversityModel.Models;
 
 namespace University.Controllers
 {
+    [Authorize(Roles = "Admin")]//cookie -Role :Admin
     public class InstructorController : Controller
     {
         private readonly IRepository<Instructor> _instructorRepository;
