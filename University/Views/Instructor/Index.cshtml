@@ -17,6 +17,7 @@
             <th>@Html.DisplayNameFor(model => model.LastName)</th>
             <th>@Html.DisplayNameFor(model => model.HireDate)</th>
             <th>@Html.DisplayNameFor(model => model.OfficeAssignment.Location)</th>
+            <th>Image</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -28,6 +29,9 @@
                 <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                 <td>@Html.DisplayFor(modelItem => item.HireDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.OfficeAssignment.Location)</td>
+                <td>
+                    <img src="@item.imagrSrc" style="width:48px;" class="img-thumbnail" />
+                </td>
                 <td>
                     <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a class="btn btn-sm btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>

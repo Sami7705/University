@@ -9,18 +9,18 @@
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card shadow-lg border-0">
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header bg-gradient text-white text-center">
                 <h4 class="mb-0">Enrollment Details</h4>
             </div>
             <div class="card-body">
                 <form asp-action="Create" method="post">
                     <div class="form-group mb-3">
-                        <label asp-for="StudentID" class="form-label fw-bold text-secondary"></label>
-                        <select asp-for="StudentID" class="form-select border-primary" asp-items="ViewBag.Student"></select>
+                        <label asp-for="CourseID" class="form-label fw-bold text-secondary"></label>
+                        <select asp-for="CourseID" class="form-select border-primary" asp-items="ViewBag.Courses"></select>
                     </div>
                     <div class="form-group mb-3">
-                        <label asp-for="CourseID" class="form-label fw-bold text-secondary"></label>
-                        <select asp-for="CourseID" class="form-select border-primary" asp-items="ViewBag.Course"></select>
+                        <label asp-for="StudentID" class="form-label fw-bold text-secondary"></label>
+                        <select asp-for="StudentID" class="form-select border-primary" asp-items="ViewBag.Students"></select>
                     </div>
                     <div class="form-group mb-4">
                         <label asp-for="Grade" class="form-label fw-bold text-secondary"></label>
@@ -45,3 +45,41 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<style>
+    body {
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+        color: #fff;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+    }
+
+    .form-label {
+        color: #333;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #6a11cb;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-success:hover, .btn-danger:hover {
+            opacity: 0.8;
+        }
+</style>
+

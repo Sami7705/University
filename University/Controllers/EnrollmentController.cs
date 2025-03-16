@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using UniversityDataAccess.Interface;
@@ -6,7 +7,7 @@ using UniversityModel.Models;
 
 namespace University.Controllers
 {
-
+    [Authorize]
     public class EnrollmentController : Controller
     {
         private readonly IRepository<Enrollment> _enrollmentRepository;
@@ -35,11 +36,14 @@ namespace University.Controllers
         // GET: EnrollmentController/Create
         public ActionResult Create()
         {
-            selectViewBag();
+            if (ViewBag.Courses == null || ViewBag.Students == null)
+            {
+                selectViewBag();
+            }
 
             return View();
         }
-  
+
 
 
         // POST: EnrollmentController/Create

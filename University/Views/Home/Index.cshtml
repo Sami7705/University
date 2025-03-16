@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جامعة الدبعي للعلوم والتكنولوجيا</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Cairo', sans-serif;
@@ -18,8 +19,6 @@
             margin: 0;
             padding: 0;
         }
-
-     
 
         .container {
             max-width: 1000px;
@@ -106,12 +105,24 @@
                 transform: scale(1.05);
             }
 
-        color: #2c3e50; /* لون أزرق غامق */
-                }
-
         .fade-in {
             animation: fadeIn 1.5s ease-in-out;
         }
+
+        .student-login-link {
+            display: inline-block;
+            background: #f45; /* لون أزرق غامق */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+            .student-login-link:hover {
+                background: #f45; /* لون أزرق غامق */
+                transform: scale(1.05);
+            }
     </style>
 </head>
 <body>
@@ -162,6 +173,17 @@
                 <li>مسابقات وهاكاثونات في الذكاء الاصطناعي</li>
             </ul>
             <button onclick="showMessage()">اكتشف المزيد</button>
+        </div>
+
+        <div class="section fade-in">
+            <h2>تسجيلات الطلاب</h2>
+            <p>يمكن للطلاب المسجلين عرض تسجيلاتهم هنا:</p>
+            <a asp-action="StudentLogin" class="student-login-link">تسجيلات الطالب</a>
+        </div>
+        <div class="section fade-in">
+            <h2>دخول المدربين</h2>
+            <p>يمكن للمدربين المسجلين في الجامعة الدخول من هنا لادخال علامات الطلاب في الدورات:</p>
+            <a asp-action="TeacherLogin" class="student-login-link">دخول المدرب</a>
         </div>
     </div>
 

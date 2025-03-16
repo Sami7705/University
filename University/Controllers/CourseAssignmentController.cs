@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UniversityDataAccess.Interface;
@@ -6,6 +7,7 @@ using UniversityModel.Models;
 
 namespace University.Controllers
 {
+    [Authorize(Roles = "Admin")]//cookie -Role :Admin
     public class CourseAssignmentController : Controller
     {
         private readonly IRepository<CourseAssignment> _courseAssignmentRepository;

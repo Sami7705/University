@@ -23,6 +23,10 @@
                 <input asp-for="EnrollmentDate" class="form-control" />
                 <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <input type="file" asp-for="clientFile" onchange="loadFile(event)" />
+                <img id="myImg" height="200"
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -33,4 +37,21 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts
+  {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        var loadFile =function(event){
+        var reader = new FileReader ();
+        reader.onload=function(){
+            var myImg = document.getElementById('myImg');
+            myImg.src = reader.result;
+          }
+          reader.readAsDataURL(event.target.file[0]);
+
+        }
+    </script>
+   }}
 
