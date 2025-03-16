@@ -1,4 +1,5 @@
-﻿@model University.ViewModels.StudentAndTeacherLogin
+﻿
+@model University.ViewModels.StudentAndTeacherLogin
 
 @{
     ViewData["Title"] = "Student Login";
@@ -10,7 +11,7 @@
     <div class="col-md-6">
         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
             <div class="card-body">
-                <form asp-action="StudentLogin" method="post">
+                <form asp-action="TeacherLogin" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Email" class="font-weight-bold"></label>

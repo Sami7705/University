@@ -36,11 +36,14 @@ namespace University.Controllers
         // GET: EnrollmentController/Create
         public ActionResult Create()
         {
-            selectViewBag();
+            if (ViewBag.Courses == null || ViewBag.Students == null)
+            {
+                selectViewBag();
+            }
 
             return View();
         }
-  
+
 
 
         // POST: EnrollmentController/Create

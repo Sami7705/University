@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using University.Models;
 using University.ViewModels;
 using UniversityDataAccess.Interface;
@@ -13,13 +14,22 @@ namespace University.Controllers
         private readonly IRepository<Enrollment> _enrollmentRepository;
         private readonly IRepository<Student> _studentRepository;
         private readonly IRepository<Course> _courseRepository;
+        private readonly IRepository<Instructor> _instructorRepository;
+        private readonly IRepository<CourseAssignment> _courseAssignmentRepository;
 
-        public HomeController(ILogger<HomeController> logger, IRepository<Enrollment> enrollmentRepository, IRepository<Course> courseRepository, IRepository<Student> studentRepository)
+
+
+        public HomeController(ILogger<HomeController> logger, IRepository<Enrollment> enrollmentRepository,
+            IRepository<Course> courseRepository, IRepository<Student> studentRepository,
+            IRepository<Instructor> instructorRepository, IRepository<CourseAssignment> courseAssignmentRepository)
         {
+
             _logger = logger;
             _enrollmentRepository = enrollmentRepository;
             _courseRepository = courseRepository;
             _studentRepository = studentRepository;
+            _instructorRepository = instructorRepository;
+            _courseAssignmentRepository = courseAssignmentRepository;
         }
 
         public IActionResult Index()
@@ -45,7 +55,7 @@ namespace University.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult StudentLogin(StudentLogin studentLogin)
+        public IActionResult StudentLogin(StudentAndTeacherLogin studentLogin)
         {
             if (ModelState.IsValid)
             {
@@ -66,5 +76,43 @@ namespace University.Controllers
         {
             return View();
         }
+        public IActionResult TeacherLogin()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+       
+        public IActionResult TeacherLogin(StudentAndTeacherLogin teacherLogin)
+        {
+            if (ModelState.IsValid)
+            {
+                var teacher = _instructorRepository.GetAll().FirstOrDefault(t => t.Email == teacherLogin.Email && t.Password == teacherLogin.Password);
+                if (teacher != null)
+                {
+                    var courses = _courseAssignmentRepository.GetAll()
+                        .Where(ca => ca.InstructorID == teacher.Id)
+                        .Select(ca => ca.Course)
+                        .ToList();
+
+                    var students = _enrollmentRepository.GetAll()
+                        .Where(e => courses.Select(c => c.Id).Contains(e.CourseID))
+                        .Select(e => e.Student)
+                        .Distinct()
+                        .ToList();
+
+                    ViewBag.Courses = new SelectList(courses, "Id", "Title");
+                    ViewBag.Students = new SelectList(students, "Id", "Name");
+
+                    return RedirectToAction("Create", "Enrollment");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+            return View(teacherLogin);
+        }
+    
     }
 }
