@@ -7,7 +7,7 @@ using UniversityModel.Models;
 
 namespace University.Controllers
 {
-    [Authorize]
+  
     public class EnrollmentController : Controller
     {
         private readonly IRepository<Enrollment> _enrollmentRepository;
@@ -36,10 +36,9 @@ namespace University.Controllers
         // GET: EnrollmentController/Create
         public ActionResult Create()
         {
-            if (ViewBag.Courses == null || ViewBag.Students == null)
-            {
+            
                 selectViewBag();
-            }
+            
 
             return View();
         }
@@ -61,6 +60,38 @@ namespace University.Controllers
 
             return View(enrollment);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateList(List<Enrollment> enrollments)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var enrollment in enrollments)
+                {
+                    var existingEnrollment = _enrollmentRepository.GetAll()
+                        .FirstOrDefault(e => e.StudentID == enrollment.StudentID && e.CourseID == enrollment.CourseID);
+
+                    if (existingEnrollment != null)
+                    {
+                        existingEnrollment.Grade = enrollment.Grade;
+                        _enrollmentRepository.Update(existingEnrollment);
+                    }
+                    else
+                    {
+                        _enrollmentRepository.Add(enrollment);
+                    }
+                }
+                TempData["SuccessMessage"] = "Enrollments added successfully!";
+                return RedirectToAction("Instructor_Screen","Home");
+            }
+
+            selectViewBag();
+
+            return View(enrollments);
+        }
+
+
+
 
         // GET: EnrollmentController/Edit/5
         public ActionResult Edit(int id)

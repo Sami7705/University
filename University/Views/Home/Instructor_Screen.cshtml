@@ -1,0 +1,126 @@
+﻿@model University.ViewModels.InstructorScreenViewModel
+
+@{
+    Layout = "_LayoutHome";
+    ViewData["Title"] = "Instructor Screen";
+    var instructorName = Model.Instructor.Name;
+    var instructorImage = Model.Instructor.imagrSrc ?? "No Image";
+}
+
+<div class="welcome-container">
+    <div class="welcome-message">
+        <h1>مرحبا @instructorName!</h1>
+        <p>We are glad to have you here. Below are the courses you are instructing.</p>
+    </div>
+    <div class="instructor-image">
+        <img src="@instructorImage" alt="Instructor Image" />
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (Model.Courses.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Course Title</th>
+                <th>Credits</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.Credits</td>
+                    <td>@course.Department?.Name</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="showStudents(@course.Id)">Show Students</button>
+                    </td>
+                </tr>
+                <tr id="students-@course.Id" style="display:none;">
+                    <td colspan="4">
+                        <div id="student-list-@course.Id"></div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No courses found for this instructor.</p>
+}
+
+
+    <style>
+        .welcome-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message {
+            flex: 1;
+        }
+
+        .instructor-image img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .thead-dark {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+    </style>
+
+
+
+    <script>
+        function showStudents(courseId) {
+            var studentList = document.getElementById('student-list-' + courseId);
+            var studentRow = document.getElementById('students-' + courseId);
+
+            if (studentRow.style.display === 'none') {
+                fetch(`/Home/GetStudentsByCourse?courseId=${courseId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        studentList.innerHTML = data;
+                        studentRow.style.display = '';
+                    });
+            } else {
+                studentRow.style.display = 'none';
+            }
+        }
+    </script>
+

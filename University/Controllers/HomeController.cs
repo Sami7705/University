@@ -82,7 +82,6 @@ namespace University.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
         public IActionResult TeacherLogin(StudentAndTeacherLogin teacherLogin)
         {
             if (ModelState.IsValid)
@@ -95,16 +94,9 @@ namespace University.Controllers
                         .Select(ca => ca.Course)
                         .ToList();
 
-                    var students = _enrollmentRepository.GetAll()
-                        .Where(e => courses.Select(c => c.Id).Contains(e.CourseID))
-                        .Select(e => e.Student)
-                        .Distinct()
-                        .ToList();
-
                     ViewBag.Courses = new SelectList(courses, "Id", "Title");
-                    ViewBag.Students = new SelectList(students, "Id", "Name");
 
-                    return RedirectToAction("Create", "Enrollment");
+                    return RedirectToAction("Instructor_Screen", teacher);
                 }
                 else
                 {
@@ -113,6 +105,35 @@ namespace University.Controllers
             }
             return View(teacherLogin);
         }
-    
+        public IActionResult Instructor_Screen(Instructor instructor)
+        {
+            var courses = _courseAssignmentRepository.GetAll()
+                .Where(ca => ca.InstructorID == instructor.Id)
+                .Select(ca => ca.Course)
+                .ToList();
+
+            var viewModel = new InstructorScreenViewModel
+            {
+                Instructor = instructor,
+                Courses = courses
+            };
+
+            return View(viewModel);
+        }
+
+
+        public IActionResult GetStudentsByCourse(int courseId)
+        {
+            var enrollments = _enrollmentRepository.GetAll()
+                .Where(e => e.CourseID == courseId)
+                .ToList();
+
+            return PartialView("_StudentList", enrollments);
+        }
+
+
+
+
+
     }
 }
