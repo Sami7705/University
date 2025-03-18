@@ -4,6 +4,45 @@
     ViewData["Title"] = "New";
 }
 
+<style>
+    body {
+        background-color: #f0f8ff; /* AliceBlue */
+    }
+    h1, h2 {
+        color: #ff4500; /* OrangeRed */
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+    }
+    .border {
+        border: 2px solid #4caf50; /* Green */
+        border-radius: 10px;
+        background-color: #ffffff; /* White */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+        border: 1px solid #4caf50; /* Green */
+        border-radius: 5px;
+    }
+    .btn-success {
+        background-color: #4caf50; /* Green */
+        border-color: #4caf50;
+    }
+    .btn-secondary {
+        background-color: #ff4500; /* OrangeRed */
+        border-color: #ff4500;
+    }
+    .btn-success:hover, .btn-secondary:hover {
+        opacity: 0.8;
+    }
+    label {
+        font-weight: bold;
+        color: #4caf50; /* Green */
+    }
+    .text-danger {
+        color: #ff4500; /* OrangeRed */
+    }
+</style>
+
 <h1>New</h1>
 
 <form method="post" enctype="multipart/form-data">
@@ -17,39 +56,33 @@
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
-
         </div>
         <div class="mb-3">
             <label asp-for="EnrollmentDate"></label>
             <input asp-for="EnrollmentDate" class="form-control" />
             <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
-
         </div>
         <div class="mb-3">
-            <input type="file"  asp-for="clientFile" onchange="loadFile(event)"/>
-            <img id="myImg" height="200"
+            <input type="file" asp-for="clientFile" onchange="loadFile(event)" />
+            <img id="myImg" height="200" />
         </div>
         <div class="col-6">
-
-            <button type="submit" class="btn btn-success">save</button>
-            <a asp-controller="Student" asp-action="Index" class="btn btn-secondary">Back To Books</a>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a asp-controller="Student" asp-action="Index" class="btn btn-secondary">Back To Students</a>
         </div>
     </div>
 </form>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        var loadFile =function(event){
-        var reader = new FileReader ();
-        reader.onload=function(){
-            var myImg = document.getElementById('myImg');
-            myImg.src = reader.result;
-          }
-          reader.readAsDataURL(event.target.file[0]);
-
+        var loadFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var myImg = document.getElementById('myImg');
+                myImg.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
         }
     </script>
 }
-
-
-

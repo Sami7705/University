@@ -4,12 +4,47 @@
     ViewData["Title"] = "Edit";
 }
 
+<style>
+    body {
+    background-color: #f0f8ff; /* AliceBlue */
+    }
+    h1, h4 {
+    color: #ff4500; /* OrangeRed */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    }
+    .border {
+    border: 2px solid #4caf50; /* Green */
+    border-radius: 10px;
+    background-color: #ffffff; /* White */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+    border: 1px solid #4caf50; /* Green */
+    border-radius: 5px;
+    }
+    .btn-primary {
+    background-color: #4caf50; /* Green */
+    border-color: #4caf50;
+    }
+    .btn-primary:hover {
+    opacity: 0.8;
+    }
+    label {
+    font-weight: bold;
+    color: #4caf50; /* Green */
+    }
+    .text-danger {
+    color: #ff4500; /* OrangeRed */
+    }
+</style>
+
 <h1>Edit</h1>
 
 <h4>Student</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 border p-3 mt-4">
         <form asp-action="Edit">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -25,7 +60,7 @@
             </div>
             <div class="mb-3">
                 <input type="file" asp-for="clientFile" onchange="loadFile(event)" />
-                <img id="myImg" height="200"
+                <img id="myImg" height="200" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -35,23 +70,21 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
-@section Scripts
-  {
+
+@section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        var loadFile =function(event){
-        var reader = new FileReader ();
-        reader.onload=function(){
-            var myImg = document.getElementById('myImg');
-            myImg.src = reader.result;
-          }
-          reader.readAsDataURL(event.target.file[0]);
-
+        var loadFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var myImg = document.getElementById('myImg');
+                myImg.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
         }
     </script>
-   }}
-
+}

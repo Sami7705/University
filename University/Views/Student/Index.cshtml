@@ -2,13 +2,73 @@
 
 @{
     ViewData["Title"] = "Index";
-    
 }
+
+<style>
+    body {
+        background-color: #f0f8ff; /* AliceBlue */
+    }
+    h1 {
+        color: #ff4500; /* OrangeRed */
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+    }
+    .table {
+        width: 80%;
+        margin: auto;
+        border-collapse: collapse;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .table th, .table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+    .table th {
+        background-color: #4caf50; /* Green */
+        color: white;
+    }
+    .table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .table tr:hover {
+        background-color: #ddd;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    .btn-new {
+        background-color: #4caf50; /* Green */
+        color: white;
+    }
+    .btn-edit {
+        background-color: #ff9800; /* Orange */
+        color: white;
+    }
+    .btn-details {
+        background-color: #2196f3; /* Blue */
+        color: white;
+    }
+    .btn-delete {
+        background-color: #f44336; /* Red */
+        color: white;
+    }
+    .img-thumbnail {
+        border-radius: 50%;
+    }
+</style>
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="New">Create New</a>
+    <a asp-action="New" class="btn btn-new">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -38,9 +98,9 @@
                 <img src="@item.imagrSrc" style="width:48px;" class="img-thumbnail"/>
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-edit">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-details">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-delete">Delete</a>
             </td>
         </tr>
 }
