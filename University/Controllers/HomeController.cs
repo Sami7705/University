@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 using University.Models;
 using University.ViewModels;
 using UniversityDataAccess.Interface;
@@ -17,13 +17,10 @@ namespace University.Controllers
         private readonly IRepository<Instructor> _instructorRepository;
         private readonly IRepository<CourseAssignment> _courseAssignmentRepository;
 
-
-
         public HomeController(ILogger<HomeController> logger, IRepository<Enrollment> enrollmentRepository,
             IRepository<Course> courseRepository, IRepository<Student> studentRepository,
             IRepository<Instructor> instructorRepository, IRepository<CourseAssignment> courseAssignmentRepository)
         {
-
             _logger = logger;
             _enrollmentRepository = enrollmentRepository;
             _courseRepository = courseRepository;
@@ -55,14 +52,15 @@ namespace University.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult StudentLogin(StudentAndTeacherLogin studentLogin)
+        public async Task<IActionResult> StudentLogin(StudentAndTeacherLogin studentLogin)
         {
             if (ModelState.IsValid)
             {
-                var student = _studentRepository.GetAll().FirstOrDefault(s => s.Email == studentLogin.Email && s.Password == studentLogin.Password);
+                IEnumerable<Student> students = await _studentRepository.GetAllAsync();
+                Student? student = students.FirstOrDefault(s => s.Email == studentLogin.Email && s.Password == studentLogin.Password);
                 if (student != null)
                 {
-                    var enrollments = _enrollmentRepository.GetAll().Where(e => e.StudentID == student.Id).ToList();
+                    List<Enrollment> enrollments = (await _enrollmentRepository.GetAllAsync()).Where(e => e.StudentID == student.Id).ToList();
                     return View("StudentEnrollments", enrollments);
                 }
                 else
@@ -72,24 +70,33 @@ namespace University.Controllers
             }
             return View(studentLogin);
         }
+
         public ActionResult Devlopers()
         {
             return View();
         }
+        public IActionResult ConectUs()
+        {
+            return View();
+        }
+
         public IActionResult TeacherLogin()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult TeacherLogin(StudentAndTeacherLogin teacherLogin)
+        public async Task<IActionResult> TeacherLogin(StudentAndTeacherLogin teacherLogin)
         {
             if (ModelState.IsValid)
             {
-                var teacher = _instructorRepository.GetAll().FirstOrDefault(t => t.Email == teacherLogin.Email && t.Password == teacherLogin.Password);
+                IEnumerable<Instructor> teachers = await _instructorRepository.GetAllAsync();
+                Instructor? teacher = teachers.FirstOrDefault(t => t.Email == teacherLogin.Email && t.Password == teacherLogin.Password);
                 if (teacher != null)
                 {
-                    var courses = _courseAssignmentRepository.GetAll()
+                    IEnumerable<CourseAssignment> courseAssignments = await _courseAssignmentRepository.GetAllAsync();
+                    List<Course?> courses = courseAssignments
                         .Where(ca => ca.InstructorID == teacher.Id)
                         .Select(ca => ca.Course)
                         .ToList();
@@ -105,14 +112,16 @@ namespace University.Controllers
             }
             return View(teacherLogin);
         }
-        public IActionResult Instructor_Screen(Instructor instructor)
+
+        public async Task<IActionResult> Instructor_Screen(Instructor instructor)
         {
-            var courses = _courseAssignmentRepository.GetAll()
+            IEnumerable<CourseAssignment> courseAssignments = await _courseAssignmentRepository.GetAllAsync();
+            List<Course?> courses = courseAssignments
                 .Where(ca => ca.InstructorID == instructor.Id)
                 .Select(ca => ca.Course)
                 .ToList();
 
-            var viewModel = new InstructorScreenViewModel
+            InstructorScreenViewModel viewModel = new()
             {
                 Instructor = instructor,
                 Courses = courses
@@ -121,19 +130,13 @@ namespace University.Controllers
             return View(viewModel);
         }
 
-
-        public IActionResult GetStudentsByCourse(int courseId)
+        public async Task<IActionResult> GetStudentsByCourse(int courseId)
         {
-            var enrollments = _enrollmentRepository.GetAll()
+            List<Enrollment> enrollments = (await _enrollmentRepository.GetAllAsync())
                 .Where(e => e.CourseID == courseId)
                 .ToList();
 
             return PartialView("_StudentList", enrollments);
         }
-
-
-
-
-
     }
 }

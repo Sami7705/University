@@ -8,12 +8,12 @@ namespace UniversityDataAccess.Interface
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-    
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        IEnumerable<T> Search(string keyword);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(int id);
+
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task<IEnumerable<T>> SearchAsync(string keyword);
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using University.ViewModels;
 using UniversityModel.Models;
 
@@ -13,12 +12,12 @@ namespace University.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddAdmin()
         {
             return View();
@@ -29,23 +28,25 @@ namespace University.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser userModel = new ApplicationUser();
-                userModel.UserName = newUserVM.UserName;
-                userModel.PasswordHash = newUserVM.Password;
-                userModel.Address = newUserVM.Address;
+                ApplicationUser userModel = new()
+                {
+                    UserName = newUserVM.UserName,
+                    PasswordHash = newUserVM.Password,
+                    Address = newUserVM.Address
+                };
 
                 IdentityResult result = await userManager.CreateAsync(userModel, newUserVM.Password);
                 if (result.Succeeded)
                 {
                     //Assign to Role
-                    await userManager.AddToRoleAsync(userModel,"Admin");
+                    _ = await userManager.AddToRoleAsync(userModel, "Admin");
                     //create cookie
                     await signInManager.SignInAsync(userModel, false);
                     return RedirectToAction("Index", "Student");
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
@@ -64,7 +65,7 @@ namespace University.Controllers
         [HttpGet]
         public IActionResult OpenDashBoard()
         {
-           
+
             return View();
         }
 
@@ -74,32 +75,34 @@ namespace University.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]  
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterUserViewModel newUserVM)
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser userModel = new ApplicationUser();
-                userModel.UserName = newUserVM.UserName;
-                userModel.PasswordHash = newUserVM.Password;
-                userModel.Address = newUserVM.Address;
+                ApplicationUser userModel = new()
+                {
+                    UserName = newUserVM.UserName,
+                    PasswordHash = newUserVM.Password,
+                    Address = newUserVM.Address
+                };
 
-               IdentityResult result= await userManager.CreateAsync(userModel,newUserVM.Password);
+                IdentityResult result = await userManager.CreateAsync(userModel, newUserVM.Password);
                 if (result.Succeeded)
                 {
-                   await signInManager.SignInAsync(userModel, false);
+                    await signInManager.SignInAsync(userModel, false);
                     return RedirectToAction("Index", "Student");
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
 
                 }
 
-                  
+
             }
             return View(newUserVM);
         }
@@ -112,20 +115,19 @@ namespace University.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel userVM)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-               ApplicationUser userModel= await userManager.FindByNameAsync(userVM.UserName);
-                if (userModel != null) 
+                ApplicationUser userModel = await userManager.FindByNameAsync(userVM.UserName);
+                if (userModel != null)
                 {
-                  bool found=await userManager.CheckPasswordAsync(userModel, userVM.Password);
+                    bool found = await userManager.CheckPasswordAsync(userModel, userVM.Password);
                     if (found)
                     {
                         //  await signInManager.SignInAsync(userModel, userVM.RememberMe);
-                        List<Claim> Claims = new List<Claim>();
-                        Claims.Add(new Claim("Address", userModel.Address));
+                        List<Claim> Claims = [new Claim("Address", userModel.Address)];
 
-                        await signInManager.SignInWithClaimsAsync(userModel, userVM.RememberMe,Claims);
-                        return RedirectToAction("Index","Student");
+                        await signInManager.SignInWithClaimsAsync(userModel, userVM.RememberMe, Claims);
+                        return RedirectToAction("OpenDashboard", "Dashboard");
                     }
                 }
                 ModelState.AddModelError("", "Username and Password invalid");

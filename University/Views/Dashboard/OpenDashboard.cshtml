@@ -1,44 +1,225 @@
-﻿
+﻿@model University.ViewModels.DashboardViewModel
+
 @{
-    ViewData["Title"] = "OpenDashboard";
+    ViewData["Title"] = "لوحة التحكم";
+    Layout = "_Layout";
 }
-    
 
-<div class="container mt-5">
-    <h1 class="mb-4">لوحة تحكم مدير النظام</h1>
-
+<div class="container-fluid">
     <div class="row">
-        @foreach(var i in Model){
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">عدد الطلاب</h5>
-                    <p class="card-text display-4">@i.s</p>
+        <!-- الشريط الجانبي -->
+        <nav id="sidebar" class="col-md-2 d-md-block bg-dark sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Department" asp-action="Index">
+                            <i class="fas fa-building"></i> الأقسام
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Student" asp-action="Index">
+                            <i class="fas fa-user-graduate"></i> الطلاب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Enrollment" asp-action="Index">
+                            <i class="fas fa-clipboard-list"></i> التسجيلات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Course" asp-action="Index">
+                            <i class="fas fa-book-open"></i> الدورات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Instructor" asp-action="Index">
+                            <i class="fas fa-chalkboard-teacher"></i> المدربين
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="CourseAssignment" asp-action="Index">
+                            <i class="fas fa-tasks"></i> مهام الدورات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="OfficeAssignment" asp-action="Index">
+                            <i class="fas fa-map-marker-alt"></i> مواقع المكاتب
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Roles" asp-action="New">
+                                <i class="fas fa-user-shield"></i> إضافة صلاحيات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Account" asp-action="AddAdmin">
+                                <i class="fas fa-user-plus"></i> إضافة مسؤول
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+
+        <!-- محتوى لوحة التحكم -->
+        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+            <h1 class="text-center my-4">لوحة تحكم مدير النظام</h1>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- عدد الطلاب -->
+                <div class="col">
+                    <div class="card dashboard-card bg-primary text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-user-graduate fa-3x mb-3"></i>
+                            <h5>عدد الطلاب</h5>
+                            <p class="display-4">@Model.StudentsCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- عدد المدربين -->
+                <div class="col">
+                    <div class="card dashboard-card bg-success text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-chalkboard-teacher fa-3x mb-3"></i>
+                            <h5>عدد المدربين</h5>
+                            <p class="display-4">@Model.InstructorsCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- عدد الزوار -->
+                <div class="col">
+                    <div class="card dashboard-card bg-danger text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-users fa-3x mb-3"></i>
+                            <h5>عدد الزوار</h5>
+                            <p class="display-4">@Model.VisitorsCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- باقي الكروت بنفس التصميم -->
+                <div class="col">
+                    <div class="card dashboard-card bg-warning text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-book-open fa-3x mb-3"></i>
+                            <h5>عدد الدورات</h5>
+                            <p class="display-4">@Model.CoursesCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card dashboard-card bg-info text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-building fa-3x mb-3"></i>
+                            <h5>عدد المكاتب</h5>
+                            <p class="display-4">@Model.OfficesCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card dashboard-card bg-dark text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                            <h5>عدد التسجيلات</h5>
+                            <p class="display-4">@Model.EnrollmentsCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card dashboard-card bg-secondary text-white text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-tasks fa-3x mb-3"></i>
+                            <h5>عدد المهام المسندة</h5>
+                            <p class="display-4">@Model.CourseAssignmentsCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card dashboard-card bg-teal text-dark text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-user-plus fa-3x mb-3"></i>
+                            <h5>عدد المشتركين</h5>
+                            <p class="display-4">@Model.SubscribersCount</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card dashboard-card bg-light text-dark text-center shadow">
+                        <div class="card-body">
+                            <i class="fas fa-envelope fa-3x mb-3"></i>
+                            <h5>عدد الرسائل</h5>
+                            <p class="display-4">@Model.MessagesCount</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
 
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">عدد الأساتذة</h5>
-                        <p class="card-text display-4">@i.i</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">المقررات الدراسية</h5>
-                        <p class="card-text display-4">@i.c</p>
-                </div>
-            </div>
-        </div>
-        }
-    </div>
-
-    <div class="mt-4">
-        <a href="/Settings" class="btn btn-primary">إعدادات النظام</a>
     </div>
 </div>
+
+<style>
+    /* تثبيت الشريط الجانبي */
+    .sidebar {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+        padding-top: 20px;
+        overflow-y: auto;
+    }
+
+    .nav-link {
+        font-size: 1.1rem;
+        padding: 12px;
+        transition: 0.3s;
+    }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+    /* ضبط مكان المحتوى الرئيسي */
+    main {
+        margin-left: 220px; /* يضمن عدم تداخل القائمة مع المحتوى */
+    }
+
+    /* تحسين تصميم البطاقات */
+    .dashboard-card {
+        border-radius: 10px;
+        transition: 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .dashboard-card:hover {
+            transform: scale(1.05);
+        }
+
+    /* تحسين المسافات */
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* إضافة تأثيرات عند تحريك الفأرة فوق البطاقات */
+    .dashboard-card i {
+        transition: 0.3s;
+    }
+
+    .dashboard-card:hover i {
+        transform: scale(1.2);
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

@@ -18,39 +18,44 @@ namespace UniversityDataAccess
         {
             _context = context;
         }
-        public void Add(Enrollment entity)
+
+        public async Task AddAsync(Enrollment entity)
         {
-            _context.Enrollments.Add(entity);
-            _context.SaveChanges();
+            await _context.Enrollments.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Enrollment entity)
+        public async Task DeleteAsync(Enrollment entity)
         {
             _context.Enrollments.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Enrollment> GetAll()
+        public async Task<IEnumerable<Enrollment>> GetAllAsync()
         {
-            var enrollments = _context.Enrollments.Include(e => e.Course).Include(e => e.Student).ToList();
-            return _context.Enrollments.ToList();
+            return await _context.Enrollments
+                .Include(e => e.Course)
+                .Include(e => e.Student)
+                .ToListAsync();
         }
 
-        public Enrollment GetById(int id)
+        public async Task<Enrollment> GetByIdAsync(int id)
         {
-            return _context.Enrollments.FirstOrDefault(e => e.Id == id)!;
+            return await _context.Enrollments
+                .Include(e => e.Course)
+                .Include(e => e.Student)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public IEnumerable<Enrollment> Search(string keyword)
+        public async Task<IEnumerable<Enrollment>> SearchAsync(string keyword)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Enrollment entity)
+        public async Task UpdateAsync(Enrollment entity)
         {
             _context.Enrollments.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        
     }
 }

@@ -17,41 +17,41 @@ namespace UniversityDataAccess
         public CourseRepository(AppDbContext context)
         {
             _context = context;
-            
-        }
-        public void Add(Course entity)
-        {
-          _context.Courses.Add(entity);
-            _context.SaveChanges();
         }
 
-        public void Delete(Course entity)
+        public async Task AddAsync(Course entity)
+        {
+            await _context.Courses.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Course entity)
         {
             _context.Courses.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Course> GetAll()
-
-        {  var courses = _context.Courses.Include(c => c.Department).ToList();
-            return _context.Courses.ToList();
-        }
-
-        public Course GetById(int id)
+        public async Task<IEnumerable<Course>> GetAllAsync()
         {
-         return _context.Courses.SingleOrDefault( c => c.Id == id)!;
+            return await _context.Courses.Include(c => c.Department).ToListAsync();
         }
 
-        public IEnumerable<Course> Search(string keyword)
+        public async Task<Course> GetByIdAsync(int id)
         {
-            return _context.Courses.Where(s => s.Title.ToUpper().Contains(keyword.ToUpper()));
-
+            return await _context.Courses.SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public void Update(Course entity)
+        public async Task<IEnumerable<Course>> SearchAsync(string keyword)
         {
-          _context.Courses.Update(entity);
-            _context.SaveChanges();
+            return await _context.Courses
+                .Where(s => s.Title.ToUpper().Contains(keyword.ToUpper()))
+                .ToListAsync();
+        }
+
+        public async Task UpdateAsync(Course entity)
+        {
+            _context.Courses.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -12,83 +12,91 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Back To Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                       
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departmenst</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Students</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Enrollment" asp-action="Index">Enrollments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Instructor" asp-action="Index">Instructors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CourseAssignment" asp-action="Index">CourseAssignments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="OfficeAssignment" asp-action="Index">OfficeAssignment</a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="New">AddRoles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AddAdmin">Add Admin</a>
-                        </li>
-                        }
-                    </ul>
-                    <ul class="navbar-nav ">
-                        @if (User.Identity.IsAuthenticated == false)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Welcome @User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                        }
 
-                      
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#">Welcome @User.Identity.Name</a>
+                            </li>
 
+                            <!-- زر العودة إلى لوحة التحكم -->
+                            <li class="nav-item">
+                                <a class="btn btn-outline-primary me-2" asp-controller="Dashboard" asp-action="OpenDashboard">
+                                    <i class="fas fa-tachometer-alt"></i> لوحة التحكم
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-outline-primary me-2" asp-area="" asp-controller="Account" asp-action="Logout">
+                                    <i class="fas fa-tachometer-alt"></i>Logout
+                                    </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary me-2" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-tachometer-alt"></i>Back
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+
+
+
+
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
-            &copy; 2025 - University - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row align-items-center">
+                <!-- شعار وحقوق النشر -->
+                <div class="col-md-4 text-center text-md-start">
+                    <h5>جامعة الدبعي</h5>
+                    <p>&copy; 2025 جميع الحقوق محفوظة</p>
+                </div>
+
+                <!-- وسائل الاتصال -->
+                <div class="col-md-4 text-center">
+                    <h5><i class="fas fa-envelope text-warning"></i> البريد الإلكتروني</h5>
+                    <p>
+                        <a href="mailto:samialdobai23@gmail.com" class="text-decoration-none text-light">
+                            samialdobai23@gmail.com
+                        </a>
+                    </p>
+                    <h5><i class="fas fa-phone-alt text-success"></i> الهاتف</h5>
+                    <p>
+                        <a href="tel:+770599560" class="text-decoration-none text-light">
+                            +770599560
+                        </a>
+                    </p>
+                </div>
+
+                <!-- وسائل التواصل الاجتماعي -->
+                <div class="col-md-4 text-center text-md-end">
+                    <h5>تابعنا على</h5>
+                    <div class="d-flex justify-content-center justify-content-md-end">
+
+                        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

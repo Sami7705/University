@@ -19,16 +19,17 @@ namespace University.Controllers
             _departmentRepository = departmentRepository;
         }
 
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_courseRepository.GetAll());
+            var courses = await _courseRepository.GetAllAsync();
+            return View(courses);
         }
 
         // GET: CourseController/Details/5
-        public ActionResult Details(int id)
-        { 
-            selectViewBag();
-            var course = _courseRepository.GetById(id);
+        public async Task<IActionResult> Details(int id)
+        {
+            await selectViewBag();
+            var course = await _courseRepository.GetByIdAsync(id);
             if (course == null)
             {
                 return NotFound();
@@ -37,61 +38,61 @@ namespace University.Controllers
         }
 
         // GET: CourseController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            selectViewBag();
+            await selectViewBag();
             return View();
         }
 
         // POST: CourseController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Course course)
+        public async Task<IActionResult> Create(Course course)
         {
             if (ModelState.IsValid)
             {
-                _courseRepository.Add(course);
+                await _courseRepository.AddAsync(course);
                 return RedirectToAction(nameof(Index));
             }
-            selectViewBag();
+            await selectViewBag();
             return View(course);
         }
 
         // GET: CourseController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var course = _courseRepository.GetById(id);
+            var course = await _courseRepository.GetByIdAsync(id);
             if (course == null)
             {
                 return NotFound();
             }
-            selectViewBag();
+            await selectViewBag();
             return View(course);
         }
 
         // POST: CourseController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Course course)
+        public async Task<IActionResult> Edit(Course course)
         {
             if (ModelState.IsValid)
             {
-                _courseRepository.Update(course);
+                await _courseRepository.UpdateAsync(course);
                 return RedirectToAction(nameof(Index));
             }
-            selectViewBag();
+            await selectViewBag();
             return View(course);
         }
 
         // GET: CourseController/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            selectViewBag();
+            await selectViewBag();
             if (id == null)
             {
                 return NotFound();
             }
-            var course = _courseRepository.GetById(id.Value);
+            var course = await _courseRepository.GetByIdAsync(id.Value);
             if (course == null)
             {
                 return NotFound();
@@ -102,19 +103,19 @@ namespace University.Controllers
         // POST: CourseController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Course course)
+        public async Task<IActionResult> Delete(Course course)
         {
             if (course != null)
             {
-                _courseRepository.Delete(course);
+                await _courseRepository.DeleteAsync(course);
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
         }
 
-        private void selectViewBag()
+        private async Task selectViewBag()
         {
-            ViewBag.Department = _departmentRepository.GetAll().Select(d => new SelectListItem
+            ViewBag.Department = (await _departmentRepository.GetAllAsync()).Select(d => new SelectListItem
             {
                 Value = d.Id.ToString(),
                 Text = d.Name

@@ -110,7 +110,7 @@
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Devlopers">المطورين</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">تواصل معنا</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="ConectUs">تواصل معنا</a>
                 </li>
                 @if (User.IsInRole("Admin"))
                 {
@@ -148,9 +148,13 @@
     <div class="container">
         
             @RenderBody()
-        <
-    </div>
-
+        
+    </div><br/>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <footer class="footer">
         <p>البريد الإلكتروني: samialdobai23@gmail.com | رقم الهاتف: 770599560</p>
         <p>تابعنا على:</p>

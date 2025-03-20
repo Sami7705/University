@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "ConectUs";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4">تواصل معنا</h1>
+    <p class="text-center text-muted">إذا كان لديك أي استفسار أو ترغب في التواصل مع مطوري النظام، لا تتردد في ذلك!</p>
+
+    <div class="row mt-5">
+        <!-- معلومات الاتصال -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 p-4">
+                <h4 class="mb-3 text-primary"><i class="fas fa-info-circle"></i> معلومات الاتصال</h4>
+                <p><i class="fas fa-map-marker-alt text-success"></i> العنوان: الجامعة، المدينة، الدولة</p>
+                <p><i class="fas fa-envelope text-danger"></i> البريد الإلكتروني: <a href="www.sanaa.sdu" class="text-decoration-none">info@university.com</a></p>
+                <p><i class="fas fa-phone text-warning"></i> الهاتف: <a href="tel:+967770599560" class="text-decoration-none">+967770599560</a></p>
+                <p><i class="fas fa-globe text-info"></i> الموقع الإلكتروني: <a href="#" class="text-decoration-none">www.university.com</a></p>
+                <div class="d-flex mt-3">
+                    <a href="#" class="btn btn-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-danger me-2"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="btn btn-success me-2"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="btn btn-info"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- نموذج التواصل -->
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 p-4">
+                <h4 class="mb-3 text-primary"><i class="fas fa-envelope"></i> أرسل رسالة</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">الاسم الكامل</label>
+                        <input type="text" class="form-control" id="name" placeholder="أدخل اسمك" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="email" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">الرسالة</label>
+                        <textarea class="form-control" id="message" rows="4" placeholder="اكتب رسالتك هنا..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">إرسال <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

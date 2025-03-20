@@ -19,39 +19,39 @@ namespace UniversityDataAccess
             _context = context;
         }
 
-        public IEnumerable<OfficeAssignment> GetAll()
+        public async Task<IEnumerable<OfficeAssignment>> GetAllAsync()
         {
-            return _context.OfficeAssignments.Include(I => I.Instructor).ToList();
+            return await _context.OfficeAssignments.Include(I => I.Instructor).ToListAsync();
         }
 
-        public OfficeAssignment GetById(int id)
+        public async Task<OfficeAssignment> GetByIdAsync(int id)
         {
-            return _context.OfficeAssignments.Find(id)!;
+            return await _context.OfficeAssignments.FindAsync(id);
         }
 
-        public void Add(OfficeAssignment entity)
+        public async Task AddAsync(OfficeAssignment entity)
         {
-            _context.OfficeAssignments.Add(entity);
-            _context.SaveChanges();
+            await _context.OfficeAssignments.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(OfficeAssignment entity)
+        public async Task UpdateAsync(OfficeAssignment entity)
         {
             _context.OfficeAssignments.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(OfficeAssignment entity)
+        public async Task DeleteAsync(OfficeAssignment entity)
         {
             _context.OfficeAssignments.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<OfficeAssignment> Search(string keyword)
+        public async Task<IEnumerable<OfficeAssignment>> SearchAsync(string keyword)
         {
-            return _context.OfficeAssignments
+            return await _context.OfficeAssignments
                 .Where(o => o.Location.Contains(keyword))
-                .ToList();
+                .ToListAsync();
         }
     }
 }

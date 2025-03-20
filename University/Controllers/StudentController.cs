@@ -9,63 +9,29 @@ namespace University.Controllers
     [Authorize]
     public class StudentController : Controller
     {
-       private readonly IRepository<Student> _studentRepository;
+        private readonly IRepository<Student> _studentRepository;
+
         public StudentController(IRepository<Student> studentRepository)
         {
             _studentRepository = studentRepository;
         }
-       
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-          string n=   User.Identity.Name;
-            return View(_studentRepository.GetAll());
+            string n = User.Identity.Name;
+            var students = await _studentRepository.GetAllAsync();
+            return View(students);
         }
+
         public IActionResult New()
         {
-            
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult New(Student student)
+        public async Task<IActionResult> New(Student student)
         {
-            if (ModelState.IsValid)
-            {
-                if(student.clientFile != null)
-                {
-                    MemoryStream stream = new MemoryStream();
-                    student.clientFile.CopyTo(stream);
-                    student.dbImage = stream.ToArray();
-                }
-                _studentRepository.Add(student);
-                TempData["successData"] = "Stuedent has been added successfully";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View(student);
-            }
-        }
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            if (id is 0 or null)
-            {
-                _ = NotFound();
-            }
-            Student? student = _studentRepository.GetById(id.Value);
-            if (student == null)
-            {
-                _ = NotFound();
-            }
-            return View(student);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Student student)
-        {
-
             if (ModelState.IsValid)
             {
                 if (student.clientFile != null)
@@ -74,43 +40,79 @@ namespace University.Controllers
                     student.clientFile.CopyTo(stream);
                     student.dbImage = stream.ToArray();
                 }
-                _studentRepository.Update(student);
+                await _studentRepository.AddAsync(student);
+                TempData["successData"] = "Student has been added successfully";
                 return RedirectToAction("Index");
             }
-            return View(student);
-        }
-        [HttpGet]
-        public ActionResult Delete(int? id)
-        {
-            if (id is null or 0)
+            else
             {
-                _ = NotFound();
+                return View(student);
             }
-            Student? student = _studentRepository.GetById(id.Value);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id is 0 or null)
+            {
+                return NotFound();
+            }
+            Student? student = await _studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
-                _ = NotFound();
+                return NotFound();
             }
-
             return View(student);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteStudent(int? id)
+        public async Task<IActionResult> Edit(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                if (student.clientFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    student.clientFile.CopyTo(stream);
+                    student.dbImage = stream.ToArray();
+                }
+                await _studentRepository.UpdateAsync(student);
+                return RedirectToAction("Index");
+            }
+            return View(student);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null or 0)
             {
-                _ = NotFound();
+                return NotFound();
             }
-           var s = _studentRepository.GetById(id.Value);
-            if (s != null)
+            Student? student = await _studentRepository.GetByIdAsync(id.Value);
+            if (student == null)
             {
-                _studentRepository.Delete(s);
+                return NotFound();
+            }
+            return View(student);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteStudent(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+            var student = await _studentRepository.GetByIdAsync(id.Value);
+            if (student != null)
+            {
+                await _studentRepository.DeleteAsync(student);
                 return RedirectToAction("Index");
             }
-            return View(s);
-
-
+            return View(student);
         }
     }
 }

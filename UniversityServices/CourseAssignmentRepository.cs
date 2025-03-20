@@ -19,43 +19,46 @@ namespace UniversityDataAccess
             _context = context;
         }
 
-        public IEnumerable<CourseAssignment> GetAll()
+        public async Task<IEnumerable<CourseAssignment>> GetAllAsync()
         {
-            return _context.CourseAssignments.Include(i => i.Instructor).Include(c => c.Course).ToList();
+            return await _context.CourseAssignments
+                .Include(i => i.Instructor)
+                .Include(c => c.Course)
+                .ToListAsync();
         }
 
-        public CourseAssignment GetById(int id)
+        public async Task<CourseAssignment> GetByIdAsync(int id)
         {
-            return _context.CourseAssignments
-                           .Include(i => i.Instructor)
-                           .Include(c => c.Course)
-                           .FirstOrDefault(c => c.CourseID == id)!;
+            return await _context.CourseAssignments
+                .Include(i => i.Instructor)
+                .Include(c => c.Course)
+                .FirstOrDefaultAsync(c => c.CourseID == id);
         }
 
-        public void Add(CourseAssignment entity)
+        public async Task AddAsync(CourseAssignment entity)
         {
-            _context.CourseAssignments.Add(entity);
-            _context.SaveChanges();
+            await _context.CourseAssignments.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(CourseAssignment entity)
+        public async Task UpdateAsync(CourseAssignment entity)
         {
             _context.CourseAssignments.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(CourseAssignment entity)
+        public async Task DeleteAsync(CourseAssignment entity)
         {
             _context.CourseAssignments.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<CourseAssignment> Search(string keyword)
+        public async Task<IEnumerable<CourseAssignment>> SearchAsync(string keyword)
         {
-            return _context.CourseAssignments
+            return await _context.CourseAssignments
                 .Where(ca => (ca.Course != null && ca.Course.Title.Contains(keyword)) ||
                              (ca.Instructor != null && ca.Instructor.Name.Contains(keyword)))
-                .ToList();
+                .ToListAsync();
         }
     }
 }

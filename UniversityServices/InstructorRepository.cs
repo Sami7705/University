@@ -19,27 +19,30 @@ namespace UniversityDataAccess
             _context = context;
         }
 
-        public IEnumerable<Instructor> GetAll()
+        public async Task<IEnumerable<Instructor>> GetAllAsync()
         {
-            return _context.Instructors.Include(e => e.OfficeAssignment).Include(e => e.CourseAssignments).ToList();
+            return await _context.Instructors
+                .Include(e => e.OfficeAssignment)
+                .Include(e => e.CourseAssignments)
+                .ToListAsync();
         }
 
-        public Instructor GetById(int id)
+        public async Task<Instructor> GetByIdAsync(int id)
         {
-            return _context.Instructors.Find(id)!;
+            return await _context.Instructors.FindAsync(id);
         }
 
-        public void Add(Instructor entity)
+        public async Task AddAsync(Instructor entity)
         {
-            _context.Instructors.Add(entity);
-            _context.SaveChanges();
+            await _context.Instructors.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Instructor entity)
+        public async Task UpdateAsync(Instructor entity)
         {
-            var existingInstructor = _context.Instructors
+            var existingInstructor = await _context.Instructors
                 .Include(i => i.OfficeAssignment)
-                .FirstOrDefault(i => i.Id == entity.Id);
+                .FirstOrDefaultAsync(i => i.Id == entity.Id);
 
             if (existingInstructor != null)
             {
@@ -57,21 +60,21 @@ namespace UniversityDataAccess
                     }
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void Delete(Instructor entity)
+        public async Task DeleteAsync(Instructor entity)
         {
             _context.Instructors.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Instructor> Search(string keyword)
+        public async Task<IEnumerable<Instructor>> SearchAsync(string keyword)
         {
-            return _context.Instructors
+            return await _context.Instructors
                 .Where(i => i.Name.Contains(keyword) || i.LastName.Contains(keyword))
-                .ToList();
+                .ToListAsync();
         }
     }
 }

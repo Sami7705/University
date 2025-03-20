@@ -18,40 +18,41 @@ namespace UniversityDataAccess
             _context = context;
         }
 
-        public void Add(Department entity)
+        public async Task AddAsync(Department entity)
         {
-            _context.Departments.Add(entity);
-            _context.SaveChanges();
+            await _context.Departments.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Department entity)
+        public async Task DeleteAsync(Department entity)
         {
             _context.Departments.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Department> GetAll()
+        public async Task<IEnumerable<Department>> GetAllAsync()
         {
-            return _context.Departments.Include(d => d.Administrator).ToList();
+            return await _context.Departments.Include(d => d.Administrator).ToListAsync();
         }
 
-        public Department GetById(int id)
+        public async Task<Department> GetByIdAsync(int id)
         {
-            return _context.Departments.FirstOrDefault(d => d.Id == id)!;
+            return await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public IEnumerable<Department> Search(string keyword)
+        public async Task<IEnumerable<Department>> SearchAsync(string keyword)
         {
-            return _context.Departments
+            return await _context.Departments
                 .Where(d => d.Name.Contains(keyword))
                 .Include(d => d.Administrator)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Update(Department entity)
+        public async Task UpdateAsync(Department entity)
         {
             _context.Departments.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,41 +17,40 @@ namespace UniversityDataAccess
         {
             _context = context;
         }
-        public void Add(Student entity)
+
+        public async Task AddAsync(Student entity)
         {
-            _context.Students.Add(entity);
-            _context.SaveChanges();
+            await _context.Students.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Student entity)
+        public async Task DeleteAsync(Student entity)
         {
-          _context.Students.Remove(entity);
-            _context.SaveChanges();
+            _context.Students.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Student> GetAll()
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            return _context.Students.ToList(); 
-        }
-        
-
-        public Student GetById(int id)
-        {
-           return  _context.Students.FirstOrDefault(e => e.Id == id)!;
+            return await _context.Students.ToListAsync();
         }
 
-       
-
-        public IEnumerable<Student> Search(string keyword)
+        public async Task<Student> GetByIdAsync(int id)
         {
-            return _context.Students.Where(s => s.Name.ToUpper().Contains(keyword.ToUpper()));
-
+            return await _context.Students.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public void Update(Student entity)
+        public async Task<IEnumerable<Student>> SearchAsync(string keyword)
+        {
+            return await _context.Students
+                .Where(s => s.Name.ToUpper().Contains(keyword.ToUpper()))
+                .ToListAsync();
+        }
+
+        public async Task UpdateAsync(Student entity)
         {
             _context.Students.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

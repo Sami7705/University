@@ -18,90 +18,91 @@ namespace University.Controllers
             _instructorRepository = instructorRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_departmentRepository.GetAll());
+            var departments = await _departmentRepository.GetAllAsync();
+            return View(departments);
         }
 
         // GET: DepartmentController/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            selectViewBag();
-            var department = _departmentRepository.GetById(id);
+            await selectViewBag();
+            var department = await _departmentRepository.GetByIdAsync(id);
             return View(department);
         }
 
         // GET: DepartmentController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            selectViewBag();
+            await selectViewBag();
             return View();
         }
 
         // POST: DepartmentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Department department)
+        public async Task<IActionResult> Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                _departmentRepository.Add(department);
+                await _departmentRepository.AddAsync(department);
                 return RedirectToAction(nameof(Index));
             }
 
-            selectViewBag();
+            await selectViewBag();
             return View(department);
         }
 
         // GET: DepartmentController/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            selectViewBag();
-            var department = _departmentRepository.GetById(id);
+            await selectViewBag();
+            var department = await _departmentRepository.GetByIdAsync(id);
             return View(department);
         }
 
         // POST: DepartmentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Department department)
+        public async Task<IActionResult> Edit(Department department)
         {
             if (ModelState.IsValid)
             {
-                _departmentRepository.Update(department);
+                await _departmentRepository.UpdateAsync(department);
                 return RedirectToAction(nameof(Index));
             }
             return View(department);
         }
 
         // GET: DepartmentController/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            selectViewBag();
+            await selectViewBag();
             if (id is 0 or null)
             {
                 return NotFound();
             }
-            var department = _departmentRepository.GetById(id.Value);
+            var department = await _departmentRepository.GetByIdAsync(id.Value);
             return View(department);
         }
 
         // POST: DepartmentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Department department)
+        public async Task<IActionResult> Delete(Department department)
         {
             if (department != null)
             {
-                _departmentRepository.Delete(department);
+                await _departmentRepository.DeleteAsync(department);
                 return RedirectToAction(nameof(Index));
             }
             return View(department);
         }
 
-        public void selectViewBag()
+        public async Task selectViewBag()
         {
-            ViewBag.Instructor = _instructorRepository.GetAll().Select(i => new SelectListItem
+            ViewBag.Instructor = (await _instructorRepository.GetAllAsync()).Select(i => new SelectListItem
             {
                 Value = i.Id.ToString(),
                 Text = i.Name
